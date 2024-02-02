@@ -53,6 +53,7 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     // add glide 
     implementation ("com.github.bumptech.glide:glide:4.16.0")
-
+//    add picasu
+    implementation ("com.squareup.picasso:picasso:2.8")
 
 }

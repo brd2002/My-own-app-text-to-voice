@@ -11,12 +11,18 @@
         android:layout_height="wrap_content"
         android:text="welcome to my app"
         android:textSize="20sp"
+        android:padding="10dp"
         android:textAlignment="center"
         />
-    <ListView
-        android:id="@+id/ListView"
+    <ImageView
+        android:id="@+id/ImageView"
+        android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/each_item"
-         />
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/getImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="getImage"
+        />
 </LinearLayout>

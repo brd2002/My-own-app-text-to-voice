@@ -6,8 +6,10 @@ import android.util.Log
 import android.widget.ArrayAdapter
 import com.bumptech.glide.Glide
 import com.example.myowntexttospeechapp.databinding.ActivityMainBinding
+import com.squareup.picasso.Picasso
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -18,39 +20,36 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         // this the list view of the item
-        val listview = binding.ListView
+//        val listview = binding.ListView
 
-        val apiBuilder = Retrofit.Builder()
-            .baseUrl("https://dummyjson.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(MyApiInterface::class.java)
-        val apicall = apiBuilder.getRecipes()
+
 //        val stringBuilder = StringBuilder()
-        val imageAndName = ArrayList<Recipe>()
-        apicall.enqueue(object : retrofit2.Callback<MyData> {
-            override fun onResponse(call: retrofit2.Call<MyData>, response: retrofit2.Response<MyData>) {
-                val responsebody = response.body()
-                val productList = responsebody!!.recipes
-                for (i in productList) {
-
-//                    imageAndName.add(i.name)
-//                    imageAndName.add(i.image)
-                    imageAndName.add(i)
+        var allRecipes = ArrayList<Recipe>()
+        binding.getImage.setOnClickListener {
+            val randNo = Random.nextInt(1 , 20)
+            val apiBuilder = Retrofit.Builder()
+                .baseUrl("https://dummyjson.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(MyApiInterface::class.java)
+            val apicall = apiBuilder.getRecipes()
+            apicall.enqueue(object : retrofit2.Callback<MyData> {
+                override fun onResponse(call: retrofit2.Call<MyData>, response: retrofit2.Response<MyData>) {
+                    val responsebody = response.body()
+                    val productList = responsebody!!.recipes
+                    Picasso.get().load(productList[randNo].image).into(binding.ImageView);
                 }
-                listview.isClickable = true
-                listview.adapter = MyAdapter(this@MainActivity,imageAndName)
-//                val adapterForMyListView = ArrayAdapter(this@MainActivity, android.R.layout.simple_gallery_item)
-//                Glide
-//                    .with(this@MainActivity)
-//                    .load(firstProductImage)
-//                    .centerCrop()
-////                    .placeholder(R.drawable.loading_spinner)
-////                    .into(binding.imageView);
-            }
-            override fun onFailure(call: retrofit2.Call<MyData>, t: Throwable) {
-                Log.d("fail" , t.message.toString())
-            }})
+                override fun onFailure(call: retrofit2.Call<MyData>, t: Throwable) {
+                    Log.d("fail" , t.message.toString())
+                }})
+        }
 
+//        listview.isClickable = true
+//        listview.adapter = MyAdapter(this@MainActivity,allRecipes)
     }
+//    fun callApi (randNo : Int): String{
+//
+//        return randomLink
+//    }
 }
+
